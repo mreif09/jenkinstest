@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'gcc_test:latest' }
+    }
 
     stages {
         stage('Build') {
