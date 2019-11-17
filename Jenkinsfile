@@ -7,8 +7,7 @@ pipeline {
                 echo 'Building..'
                 mkdir build
                 cd build
-                sh 'cmake ..'
-                sh 'make'
+                sh 'ls'
             }
         }
         stage('Test') {
