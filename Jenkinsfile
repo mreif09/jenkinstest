@@ -5,9 +5,11 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                mkdir build
-                cd build
-                sh 'ls'
+                sh('mkdir build')
+                sh('ls')
+                sh('cd build')
+                sh('ls')
+                sh('pwd')
             }
         }
         stage('Test') {
