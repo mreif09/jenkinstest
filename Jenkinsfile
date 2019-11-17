@@ -7,9 +7,7 @@ pipeline {
                 echo 'Building..'
                 sh('mkdir build')
                 sh('ls')
-                sh('cd build')
-                sh('ls')
-                sh('pwd')
+                sh('cd build; ls; pwd')
             }
         }
         stage('Test') {
