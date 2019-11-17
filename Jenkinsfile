@@ -11,6 +11,8 @@ pipeline {
                     cd build
                     ls
                     pwd
+                    cmake ..
+                    make
                    ''')
             }
         }
