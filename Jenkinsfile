@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'gcc_test:latest' }
+        docker { image 'gcc_gtest:latest' }
     }
 
     stages {
