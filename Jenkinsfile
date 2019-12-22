@@ -2,41 +2,55 @@ pipeline {
     agent {
         docker { image 'gcc:latest' }
     }
-
     stages {
-        stage('Build') {
+        stage('Parallel') {
             parallel {
-                stage('Build Docker') {
-                    steps {
-                        echo 'Building..'
-                        sh('''
-                            g++ testfile.cpp -o testfile
-                        ''')
+                stage('Docker') {
+                    stages {
+                        stage('Build Docker') {
+                            steps {
+                                echo 'Building..'
+                                sh('''
+                                    g++ testfile.cpp -o testfile
+                                ''')
+                            }
+                        }
+                        stage('Test') {
+                            steps {
+                                echo 'Testing..'
+                                sh('./testfile')
+                            }
+                        }
+                        stage('Deploy') {
+                            steps {
+                                echo 'Deploying....'
+                            }
+                        }
                     }
                 }
-                stage('Build AWS') {
-                    options { skipDefaultCheckout() }
-                    agent {
-                        node 'AWS'
+                stage('AWS') {
+                    stages {
+                        stage('checkout') {
+                            steps {
+                                echo 'checkout and stash..'
+                                stash excludes: '.git', name: 'files'
+                            }
+                        }
+                        stage('Build') {
+                            options { skipDefaultCheckout() }
+                            agent {
+                                node 'AWS'
+                            }
+                            steps {
+                                echo 'Building..'
+                                unstash name: 'files'
+                                sh('''
+                                    clang++ testfile.cpp -o testfile
+                                ''')
+                            }
+                        }
                     }
-                    steps {
-                        echo 'Building..'
-                        sh('''
-                            clang++ testfile.cpp -o testfile
-                        ''')
-                    }
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-                sh('./testfile')
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                 }
             }
         }
     }
