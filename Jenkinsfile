@@ -5,11 +5,26 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
-                echo 'Building..'
-                sh('''
-                    g++ testfile.cpp -o testfile
-                   ''')
+            parallel {
+                stage('Build Docker') {
+                    steps {
+                        echo 'Building..'
+                        sh('''
+                            g++ testfile.cpp -o testfile
+                        ''')
+                    }
+                }
+                stage('Build AWS') {
+                    agent {
+                        node 'AWS'
+                    }
+                    steps {
+                        echo 'Building..'
+                        sh('''
+                            clang++ testfile.cpp -o testfile
+                        ''')
+                    }
+                }
             }
         }
         stage('Test') {
