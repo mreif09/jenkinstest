@@ -33,7 +33,7 @@ pipeline {
                         stage('checkout') {
                             steps {
                                 echo 'checkout and stash..'
-                                stash excludes: '.git', name: 'files'
+                                stash includes: '*.cpp, *.hpp', name: 'files'
                             }
                         }
                         stage('Build') {
