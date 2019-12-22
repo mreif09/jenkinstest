@@ -36,7 +36,6 @@ pipeline {
                             }
                             steps {
                                 echo 'checkout and stash..'
-                                checkout scm
                                 stash excludes: '.git', name: 'files'
                             }
                         }
