@@ -25,6 +25,7 @@ pipeline {
                     }
                 }
                 stage('AWS') {
+                    options { skipDefaultCheckout() }
                     agent {
                         node 'AWS'
                     }
@@ -35,11 +36,11 @@ pipeline {
                             }
                             steps {
                                 echo 'checkout and stash..'
+                                checkout scm
                                 stash includes: '*.cpp, *.hpp', name: 'files'
                             }
                         }
                         stage('Build AWS') {
-                            options { skipDefaultCheckout() }
                             steps {
                                 echo 'Building..'
                                 unstash name: 'files'
