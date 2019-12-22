@@ -16,41 +16,42 @@ pipeline {
                                 ''')
                             }
                         }
-                        stage('Test') {
+                        stage('Test Docker') {
                             steps {
                                 echo 'Testing..'
                                 sh('./testfile')
                             }
                         }
-                        stage('Deploy') {
-                            steps {
-                                echo 'Deploying....'
-                            }
-                        }
                     }
                 }
                 stage('AWS') {
+                    agent {
+                        node 'AWS'
+                    }
                     stages {
-                        stage('checkout') {
+                        stage('Checkout for AWS') {
                             agent {
-                                docker { image 'gcc:latest' }
+                                node 'local-ssh-slave'
                             }
                             steps {
                                 echo 'checkout and stash..'
                                 stash includes: '*.cpp, *.hpp', name: 'files'
                             }
                         }
-                        stage('Build') {
+                        stage('Build AWS') {
                             options { skipDefaultCheckout() }
-                            agent {
-                                node 'AWS'
-                            }
                             steps {
                                 echo 'Building..'
                                 unstash name: 'files'
                                 sh('''
                                     clang++ testfile.cpp -o testfile
                                 ''')
+                            }
+                        }
+                        stage('Test AWS') {
+                            steps {
+                                echo 'Testing..'
+                                sh('./testfile')
                             }
                         }
                     }
