@@ -15,6 +15,7 @@ pipeline {
                     }
                 }
                 stage('Build AWS') {
+                    options { skipDefaultCheckout() }
                     agent {
                         node 'AWS'
                     }
