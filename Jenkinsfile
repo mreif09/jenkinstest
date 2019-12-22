@@ -37,7 +37,7 @@ pipeline {
                             steps {
                                 echo 'checkout and stash..'
                                 checkout scm
-                                stash exclude: '.git', name: 'files'
+                                stash excludes: '.git', name: 'files'
                             }
                         }
                         stage('Build AWS') {
