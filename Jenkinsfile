@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'gcc_gtest:latest' }
+        docker { image 'gcc:latest' }
     }
 
     stages {
@@ -8,13 +8,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh('''
-                    mkdir -p build
-                    ls
-                    cd build
-                    ls
-                    pwd
-                    cmake ..
-                    make
+                    g++ testfile.cpp -o testfile
                    ''')
             }
         }
