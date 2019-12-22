@@ -1,11 +1,12 @@
 pipeline {
-    agent {
-        docker { image 'gcc:latest' }
-    }
+    agent none
     stages {
         stage('Parallel') {
             parallel {
                 stage('Docker') {
+                    agent {
+                        docker { image 'gcc:latest' }
+                    }
                     stages {
                         stage('Build Docker') {
                             steps {
@@ -31,6 +32,9 @@ pipeline {
                 stage('AWS') {
                     stages {
                         stage('checkout') {
+                            agent {
+                                docker { image 'gcc:latest' }
+                            }
                             steps {
                                 echo 'checkout and stash..'
                                 stash includes: '*.cpp, *.hpp', name: 'files'
