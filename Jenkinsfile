@@ -15,7 +15,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh('build/testfile')
+                sh('testfile')
             }
         }
         stage('Deploy') {
