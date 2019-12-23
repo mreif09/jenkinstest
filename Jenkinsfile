@@ -32,7 +32,6 @@ pipeline {
                         stage('Build AWS') {
                             steps {
                                 echo 'Building..'
-                                unstash name: 'files'
                                 sh('''
                                     clang++ testfile.cpp -o testfile
                                 ''')
