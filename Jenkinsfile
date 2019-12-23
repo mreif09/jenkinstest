@@ -25,20 +25,10 @@ pipeline {
                     }
                 }
                 stage('AWS') {
-                    options { skipDefaultCheckout() }
                     agent {
                         node 'AWS'
                     }
                     stages {
-                        stage('Checkout for AWS') {
-                            agent {
-                                node 'local-ssh-slave'
-                            }
-                            steps {
-                                echo 'checkout and stash..'
-                                stash excludes: '.git', name: 'files'
-                            }
-                        }
                         stage('Build AWS') {
                             steps {
                                 echo 'Building..'
