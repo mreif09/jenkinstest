@@ -5,7 +5,10 @@ pipeline {
             parallel {
                 stage('Docker') {
                     agent {
-                        docker { image 'gcc:latest' }
+                        docker {
+                            image 'gcc:latest'
+                            label 'arm64'
+                        }
                     }
                     stages {
                         stage('Build Docker') {
@@ -26,7 +29,10 @@ pipeline {
                 }
                 stage('AWS') {
                     agent {
-                        node 'AWS'
+                        docker {
+                            image 'gcc:latest'
+                            label 'amd64'
+                        }
                     }
                     stages {
                         stage('Build AWS') {
