@@ -17,8 +17,8 @@ pipeline {
                     stage('Build') {
                         agent {
                             docker {
-                                image '${ARCH}:latest'
-                                label 'arm64'
+                                image '${CC}:latest'
+                                label '${ARCH}'
                             }
                         }
                         steps {
@@ -31,8 +31,8 @@ pipeline {
                     stage('Test') {
                         agent {
                             docker {
-                                image '${ARCH}:latest'
-                                label 'arm64'
+                                image '${CC}:latest'
+                                label '${ARCH}'
                             }
                         }
                         steps {
