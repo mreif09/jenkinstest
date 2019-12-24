@@ -1,56 +1,46 @@
 pipeline {
     agent none
     stages {
-        stage('Parallel') {
-            parallel {
-                stage('Docker') {
-                    agent {
-                        docker {
-                            image 'gcc:latest'
-                            label 'arm64'
+        stage('Matrix') {
+            matrix {
+                axes {
+                    axis {
+                        name 'ARCH'
+                        values 'amd64', 'arm64'
+                    }
+                    axis {
+                        name 'CC'
+                        values 'gcc'
+                    }
+                }
+                stages {
+                    stage('Build') {
+                        agent {
+                            docker {
+                                image '${ARCH}:latest'
+                                label 'arm64'
+                            }
+                        }
+                        steps {
+                            echo 'Building..'
+                            sh('''
+                                g++ testfile.cpp -o testfile
+                            ''')
                         }
                     }
-                    stages {
-                        stage('Build Docker') {
-                            steps {
-                                echo 'Building..'
-                                sh('''
-                                    g++ testfile.cpp -o testfile
-                                ''')
+                    stage('Test') {
+                        agent {
+                            docker {
+                                image '${ARCH}:latest'
+                                label 'arm64'
                             }
                         }
-                        stage('Test Docker') {
-                            steps {
-                                echo 'Testing..'
-                                sh('./testfile')
-                            }
+                        steps {
+                            echo 'Testing..'
+                            sh('./testfile')
                         }
                     }
                 }
-                stage('AWS') {
-                    agent {
-                        docker {
-                            image 'gcc:latest'
-                            label 'amd64'
-                        }
-                    }
-                    stages {
-                        stage('Build AWS') {
-                            steps {
-                                echo 'Building..'
-                                sh('''
-                                    clang++ testfile.cpp -o testfile
-                                ''')
-                            }
-                        }
-                        stage('Test AWS') {
-                            steps {
-                                echo 'Testing..'
-                                sh('./testfile')
-                            }
-                        }
-                    }
-                 }
             }
         }
     }
