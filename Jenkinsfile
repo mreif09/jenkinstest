@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image "${CC}:latest"
+                    image "gcc:latest"
                     label "amd64"
                 }
             }
@@ -18,7 +18,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image "${CC}:latest"
+                    image "gcc:latest"
                     label "amd64"
                 }
             }
