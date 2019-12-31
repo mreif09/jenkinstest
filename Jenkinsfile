@@ -18,7 +18,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image "dachuck/dev-base:0.0.1"
+                    image "dachuck/dev-base:0.0.2"
                     label "amd64"
                 }
             }
