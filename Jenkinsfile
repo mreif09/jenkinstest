@@ -11,20 +11,23 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh('''
-                    g++ testfile.cpp -o testfile
+                    g++ testfile.cpp -o testfile.o -c
                 ''')
             }
         }
         stage('Test') {
             agent {
                 docker {
-                    image "gcc:latest"
+                    image "dachuck/dev-base:0.0.1"
                     label "amd64"
                 }
             }
             steps {
                 echo 'Testing..'
-                sh('./testfile')
+                sh('''
+                    g++ test.cpp testfile.o -o utest
+                    ./utest
+                ''')
             }
         }
     }
