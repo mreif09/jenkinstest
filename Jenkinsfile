@@ -25,7 +25,7 @@ pipeline {
             steps {
                 echo 'Testing..'
                 sh('''
-                    g++ test.cpp testfile.o -o utest
+                    g++ test.cpp testfile.o -o utest -lgtest -lpthread -lgtest_main
                     ./utest
                 ''')
             }

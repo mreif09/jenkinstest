@@ -1,9 +1,7 @@
-#include <iostream>
+#include "gtest/gtest.h"
 
 #include "testfile.hpp"
 
-int main() {
-  std::cout << sum(2, 3) << std::endl;
-
-  return 0;
+TEST(testfile, sum) {
+  EXPECT_EQ(sum(2, 3), 5);
 }
