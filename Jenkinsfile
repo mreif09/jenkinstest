@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh('''
-                    g++ testfile.cpp -o testfile.o -c
+                    make testfile.o
                 ''')
             }
         }
@@ -25,8 +25,8 @@ pipeline {
             steps {
                 echo 'Testing..'
                 sh('''
-                    g++ test.cpp testfile.o -o utest -lgtest -lpthread -lgtest_main
-                    ./utest
+                    make utest
+                    ./utest --gtest_output="xml:./utest.xml"
                 ''')
             }
         }
