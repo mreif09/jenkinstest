@@ -26,7 +26,7 @@ pipeline {
                     gcovr -b -r . -f testfile --html-details -o gcovr-report.html
 
                     cppcheck --force --enable=warning,style,performance,portability --xml testfile.cpp 2> cppcheck.xml
-                    ccodecheck --output=eclipse testfile.cpp 2> ccodecheck.xml || true
+                    cpplint --counting=detailed testfile.cpp 2>&1 | ./cpplint_to_cppcheckxml.py 2> ccodecheck.xml
                 ''')
             }
             post {
@@ -36,7 +36,7 @@ pipeline {
                     cobertura coberturaReportFile: 'gcovr.xml', autoUpdateHealth: false, autoUpdateStability: false, conditionalCoverageTargets: '100, 90, 80', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '100, 95, 90', maxNumberOfBuilds: 5, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
                     // publishHTML reportFiles: 'gcovr-report*.html', allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportName: 'Coverage Report', reportTitles: ''
 
-                    recordIssues tools: [gcc(), cppCheck(pattern: 'cppcheck.xml'), gcc(id: 'ccodecheck', name: 'CCodeCheck', pattern: 'ccodecheck.xml')], healthy: 1, unhealthy: 20
+                    recordIssues tools: [gcc(), cppCheck(pattern: 'cppcheck.xml'), cppCheck(id: 'ccodecheck', name: 'CCodeCheck', pattern: 'ccodecheck.xml')], healthy: 1, unhealthy: 20
                 }
             }
         }
