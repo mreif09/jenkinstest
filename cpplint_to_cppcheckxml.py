@@ -28,6 +28,7 @@ def parse():
     # Write header
     sys.stderr.write('''<?xml version="1.0" encoding="UTF-8"?>\n''')
     sys.stderr.write('''<results version="2">\n''')
+    sys.stderr.write('''    <cppcheck version="1.86"/>\n''')
     sys.stderr.write('''    <errors>\n''')
 
     # Do line-by-line conversion
@@ -40,10 +41,13 @@ def parse():
         g = m.groups()
         if len(g) != 5:
             continue
-        fname, lineno, msg, label, score = g
+
+        fname, lineno, raw_msg, label, score = g
+        msg = html.escape(raw_msg)
         severity = cpplint_score_to_cppcheck_severity(int(score))
-        sys.stderr.write('''        <error id="%s" severity="%s" msg="%s">\n'''%(label, severity, html.escape(msg)))
-        sys.stderr.write('''            <location file="%s" line="%s" />\n'''%(fname, lineno))
+
+        sys.stderr.write('''        <error id="%s" severity="%s" msg="%s" verbose="%s">\n'''%(label, severity, msg, msg))
+        sys.stderr.write('''            <location file="%s" line="%s"/>\n'''%(fname, lineno))
         sys.stderr.write('''        </error>\n''')
 
     # Write footer
