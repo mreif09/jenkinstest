@@ -25,10 +25,10 @@ def cpplint_score_to_cppcheck_severity(score):
 
 
 def parse():
-    # TODO: do this properly, using the xml module.
     # Write header
     sys.stderr.write('''<?xml version="1.0" encoding="UTF-8"?>\n''')
-    sys.stderr.write('''<results>\n''')
+    sys.stderr.write('''<results version="2">\n''')
+    sys.stderr.write('''    <errors>\n''')
 
     # Do line-by-line conversion
     r = re.compile('([^:]*):([0-9]*):  (.*?)\s*\[([^\]]*)\] \[([0-9]*)\].*')
@@ -42,9 +42,12 @@ def parse():
             continue
         fname, lineno, msg, label, score = g
         severity = cpplint_score_to_cppcheck_severity(int(score))
-        sys.stderr.write('''<error file="%s" line="%s" id="%s" severity="%s" msg="%s"/>\n'''%(fname, lineno, label, severity, html.escape(msg)))
+        sys.stderr.write('''        <error id="%s" severity="%s" msg="%s">\n'''%(label, severity, html.escape(msg)))
+        sys.stderr.write('''            <location file="%s" line="%s" />\n'''%(fname, lineno))
+        sys.stderr.write('''        </error>\n''')
 
     # Write footer
+    sys.stderr.write('''    </errors>\n''')
     sys.stderr.write('''</results>\n''')
 
 
