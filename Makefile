@@ -7,7 +7,7 @@ OBJS = testfile.o
 utest: $(OBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o utest test.cpp $(OBJS) $(LIBS)
 
-%.o: %.cpp
+%.o: %.cpp Makefile
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCS)
 
 clean:

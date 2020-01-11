@@ -27,8 +27,8 @@ pipeline {
             }
             post {
                 always {
-                    junit '*_test.xml'
-                    cobertura coberturaReportFile: 'gcovr.xml', autoUpdateHealth: false, autoUpdateStability: false, conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+                    junit '*_test.xml', healthScaleFactor: 10.0
+                    cobertura coberturaReportFile: 'gcovr.xml', autoUpdateHealth: false, autoUpdateStability: false, conditionalCoverageTargets: '80, 51, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '100, 51, 0', maxNumberOfBuilds: 5, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
                     publishHTML reportFiles: 'gcovr-report*.html', allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportName: 'Coverage Report', reportTitles: ''
                 }
             }
