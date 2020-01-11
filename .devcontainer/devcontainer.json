@@ -1,7 +1,7 @@
 {
 	"name": "dev-base",
 	"context": "..",
-	"image": "dachuck/dev-base:0.0.2",
+	"image": "dachuck/dev-base:0.3.0",
 	"remoteUser": "user",
 	"postCreateCommand": "echo \"cd /workspaces/jenkinstest/\" >> ~/.bashrc",
 

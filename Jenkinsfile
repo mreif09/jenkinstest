@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image "dachuck/dev-base:0.0.2"
+            image "dachuck/dev-base:0.3.0"
             label "amd64"
         }
     }
@@ -21,8 +21,11 @@ pipeline {
                 sh('''
                     make utest
                     ./utest --gtest_output="xml:./testfile_test.xml"
+
                     gcovr -b -r . -f testfile --xml-pretty > gcovr.xml
                     gcovr -b -r . -f testfile --html-details -o gcovr-report.html
+
+                    cppcheck --force --enable=warning,style,performance,portability --xml testfile.cpp 2> cppcheck.xml
                 ''')
             }
             post {
@@ -33,6 +36,8 @@ pipeline {
                     publishHTML reportFiles: 'gcovr-report*.html', allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportName: 'Coverage Report', reportTitles: ''
 
                     recordIssues tools: [gcc()], filters: [excludeFile('.*test.cpp')], healthy: 1, unhealthy: 10
+
+                    recordIssues tools: [cppCheck(pattern: 'cppcheck.xml')], healthy: 1, unhealthy: 10
                 }
             }
         }
