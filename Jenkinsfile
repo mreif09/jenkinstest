@@ -19,12 +19,12 @@ pipeline {
                 echo 'Testing..'
                 sh('''
                     make utest
-                    ./utest --gtest_output="xml:./utest.xml"
+                    ./utest --gtest_output="xml:utest.xml"
                 ''')
             }
             post {
                 always {
-                    junit './utest.xml'
+                    junit '*.xml'
                 }
             }
         }
