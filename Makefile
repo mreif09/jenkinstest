@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g -fprofile-arcs -ftest-coverage
+CXXFLAGS = -g  -fprofile-arcs -ftest-coverage
 LIBS = -lgtest -lpthread -lgtest_main
 INCS = -I./
 OBJS = testfile.o
@@ -11,4 +11,4 @@ utest: $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCS)
 
 clean:
-	rm -f *.o utest.xml utest
+	rm -f *.o utest.xml utest *.gcno *.gcda
