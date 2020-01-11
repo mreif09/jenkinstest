@@ -27,7 +27,7 @@ pipeline {
             post {
                 always {
                     junit '*_test.xml'
-                    cobertura coberturaReportFile: 'gcovr-report.html'
+                    cobertura coberturaReportFile: 'gcovr.xml', autoUpdateHealth: false, autoUpdateStability: false, conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
                 }
             }
         }
