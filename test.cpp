@@ -7,5 +7,6 @@ TEST(testfile, sum) {
 }
 
 TEST(testfile, diff) {
+  int a;
   EXPECT_EQ(diff(3, 2), 1);
 }
