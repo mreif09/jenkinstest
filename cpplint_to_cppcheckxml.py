@@ -46,7 +46,7 @@ def parse():
         msg = html.escape(raw_msg)
         severity = cpplint_score_to_cppcheck_severity(int(score))
 
-        sys.stderr.write('''        <error id="%s" severity="%s" msg="%s" verbose="%s">\n'''%(label, severity, msg, msg))
+        sys.stderr.write('''        <error id="%s" severity="%s" msg="%s">\n'''%(label, severity, msg))
         sys.stderr.write('''            <location file="%s" line="%s"/>\n'''%(fname, lineno))
         sys.stderr.write('''        </error>\n''')
 
