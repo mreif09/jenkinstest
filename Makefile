@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g  -fprofile-arcs -ftest-coverage
+CXXFLAGS = -g -Wall -fprofile-arcs -ftest-coverage
 LIBS = -lgtest -lpthread -lgtest_main
 INCS = -I./
 OBJS = testfile.o

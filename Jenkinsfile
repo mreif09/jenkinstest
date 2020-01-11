@@ -30,6 +30,8 @@ pipeline {
                     junit testResults: '*_test.xml', healthScaleFactor: 10.0
                     cobertura coberturaReportFile: 'gcovr.xml', autoUpdateHealth: false, autoUpdateStability: false, conditionalCoverageTargets: '100, 90, 80', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '100, 95, 90', maxNumberOfBuilds: 5, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
                     publishHTML reportFiles: 'gcovr-report*.html', allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '', reportName: 'Coverage Report', reportTitles: ''
+
+                    recordIssues healthy: 1, tools: [gcc()], unhealthy: 10
                 }
             }
         }
