@@ -26,7 +26,7 @@ pipeline {
                     gcovr -b -r . -f testfile --html-details -o gcovr-report.html
 
                     cppcheck --force --enable=warning,style,performance,portability --xml testfile.cpp 2> cppcheck.xml
-                    ccodecheck --output=eclipse testfile.cpp 2> ccodecheck.xml
+                    ccodecheck --output=eclipse testfile.cpp 2> ccodecheck.xml || true
                 ''')
             }
             post {
