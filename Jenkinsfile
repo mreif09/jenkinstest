@@ -24,7 +24,7 @@ pipeline {
             }
             post {
                 always {
-                    junit './utest.xml"'
+                    junit './utest.xml'
                 }
             }
         }
