@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image "dachuck/dev-base:0.3.0"
+            image "dachuck/dev-base:0.4.0"
             label "amd64"
         }
     }
@@ -25,7 +25,7 @@ pipeline {
                     gcovr -b -r . -f testfile --xml-pretty > gcovr.xml
 
                     cppcheck --force --enable=warning,style,performance,portability --xml testfile.cpp 2> cppcheck.xml
-                    ccodecheck testfile.cpp 2>&1 | ./cpplint_to_cppcheckxml.py 2> ccodecheck.xml
+                    ccodecheck testfile.cpp 2>&1 | cpplint_to_cppcheckxml 2> ccodecheck.xml
                 ''')
             }
             post {
